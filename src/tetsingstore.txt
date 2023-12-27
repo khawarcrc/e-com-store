@@ -1,0 +1,31 @@
+import { useEffect, useState } from "react";
+import "./App.css";
+import { getRandomQuote } from "./store/slice/getRandomQuotes";
+import { useDispatch, useSelector } from "react-redux";
+
+function App() {
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector(
+    (state) => state.randomQuotesList
+  );
+  useEffect(() => {
+    dispatch(getRandomQuote());
+  }, []);
+
+  return (
+    <>
+      <div>
+        {loading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
+        {data && (
+          <div>
+            <p className="">{`"${data.content}" - ${data.author}`}</p>
+            {/* Add other JSX to display quote information */}
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default App;
